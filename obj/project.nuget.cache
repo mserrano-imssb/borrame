@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "dgSpecHash": "zNBhxYsleFY=",
+  "success": true,
+  "projectFilePath": "C:\\repos\\uglytxtprocessor\\uglytxtprocessor.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\mario.serrano\\.nuget\\packages\\epplus\\4.0.1.1\\epplus.4.0.1.1.nupkg.sha512",
+    "C:\\Users\\mario.serrano\\.nuget\\packages\\microsoft.net.illink.tasks\\8.0.8\\microsoft.net.illink.tasks.8.0.8.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "El paquete \"EPPlus 4.0.1.1\" se restauró con \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\" en lugar de la plataforma de destino del proyecto \"net8.0-windows7.0\". Puede que el paquete no sea totalmente compatible con el proyecto.",
+      "libraryId": "EPPlus",
+      "targetGraphs": [
+        "net8.0-windows7.0"
+      ]
+    }
+  ]
+}

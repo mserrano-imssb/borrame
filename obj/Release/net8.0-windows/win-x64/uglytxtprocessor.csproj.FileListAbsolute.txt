@@ -1,0 +1,17 @@
+C:\repos\uglytxtprocessor\bin\Release\net8.0-windows\win-x64\uglytxtprocessor.exe
+C:\repos\uglytxtprocessor\bin\Release\net8.0-windows\win-x64\uglytxtprocessor.deps.json
+C:\repos\uglytxtprocessor\bin\Release\net8.0-windows\win-x64\uglytxtprocessor.runtimeconfig.json
+C:\repos\uglytxtprocessor\bin\Release\net8.0-windows\win-x64\uglytxtprocessor.dll
+C:\repos\uglytxtprocessor\bin\Release\net8.0-windows\win-x64\uglytxtprocessor.pdb
+C:\repos\uglytxtprocessor\bin\Release\net8.0-windows\win-x64\EPPlus.dll
+C:\repos\uglytxtprocessor\obj\Release\net8.0-windows\win-x64\uglytxtprocessor.csproj.AssemblyReference.cache
+C:\repos\uglytxtprocessor\obj\Release\net8.0-windows\win-x64\uglytxtprocessor.GeneratedMSBuildEditorConfig.editorconfig
+C:\repos\uglytxtprocessor\obj\Release\net8.0-windows\win-x64\uglytxtprocessor.AssemblyInfoInputs.cache
+C:\repos\uglytxtprocessor\obj\Release\net8.0-windows\win-x64\uglytxtprocessor.AssemblyInfo.cs
+C:\repos\uglytxtprocessor\obj\Release\net8.0-windows\win-x64\uglytxtprocessor.csproj.CoreCompileInputs.cache
+C:\repos\uglytxtprocessor\obj\Release\net8.0-windows\win-x64\uglytxtp.8F8FDCF6.Up2Date
+C:\repos\uglytxtprocessor\obj\Release\net8.0-windows\win-x64\uglytxtprocessor.dll
+C:\repos\uglytxtprocessor\obj\Release\net8.0-windows\win-x64\refint\uglytxtprocessor.dll
+C:\repos\uglytxtprocessor\obj\Release\net8.0-windows\win-x64\uglytxtprocessor.pdb
+C:\repos\uglytxtprocessor\obj\Release\net8.0-windows\win-x64\uglytxtprocessor.genruntimeconfig.cache
+C:\repos\uglytxtprocessor\obj\Release\net8.0-windows\win-x64\ref\uglytxtprocessor.dll
