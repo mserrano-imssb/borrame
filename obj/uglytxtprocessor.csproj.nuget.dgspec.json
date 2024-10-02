@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\repos\\uglytxtprocessor\\uglytxtprocessor.csproj": {}
+    "c:\\repos\\uglytxtprocessor\\uglytxtprocessor.csproj": {}
   },
   "projects": {
-    "C:\\repos\\uglytxtprocessor\\uglytxtprocessor.csproj": {
+    "c:\\repos\\uglytxtprocessor\\uglytxtprocessor.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\repos\\uglytxtprocessor\\uglytxtprocessor.csproj",
+        "projectUniqueName": "c:\\repos\\uglytxtprocessor\\uglytxtprocessor.csproj",
         "projectName": "uglytxtprocessor",
-        "projectPath": "C:\\repos\\uglytxtprocessor\\uglytxtprocessor.csproj",
+        "projectPath": "c:\\repos\\uglytxtprocessor\\uglytxtprocessor.csproj",
         "packagesPath": "C:\\Users\\mario.serrano\\.nuget\\packages\\",
-        "outputPath": "C:\\repos\\uglytxtprocessor\\obj\\",
+        "outputPath": "c:\\repos\\uglytxtprocessor\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mario.serrano\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -46,12 +46,6 @@
             "EPPlus": {
               "target": "Package",
               "version": "[4.0.1.1, )"
-            },
-            "Microsoft.NET.ILLink.Tasks": {
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[8.0.8, )",
-              "autoReferenced": true
             }
           },
           "imports": [
@@ -74,11 +68,6 @@
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.402/PortableRuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "win-x64": {
-          "#import": []
         }
       }
     }

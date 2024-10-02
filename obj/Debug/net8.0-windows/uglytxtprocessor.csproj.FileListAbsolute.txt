@@ -15,3 +15,4 @@ C:\repos\uglytxtprocessor\obj\Debug\net8.0-windows\refint\uglytxtprocessor.dll
 C:\repos\uglytxtprocessor\obj\Debug\net8.0-windows\uglytxtprocessor.pdb
 C:\repos\uglytxtprocessor\obj\Debug\net8.0-windows\uglytxtprocessor.genruntimeconfig.cache
 C:\repos\uglytxtprocessor\obj\Debug\net8.0-windows\ref\uglytxtprocessor.dll
+c:\repos\uglytxtprocessor\obj\Debug\net8.0-windows\uglytxtprocessor.sourcelink.json

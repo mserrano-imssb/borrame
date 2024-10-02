@@ -11,7 +11,7 @@ namespace uglytxtprocessor;
 public partial class Form1 : Form
 {
     private DataTable dataTable;
-    private string[] exclude = ["PZA", "ENV", "EQP", "AMP", "CJA", "JGO"];
+    private string[] exclude = ["PZA", "ENV", "EQP", "AMP", "CJA", "JGO", "LTA"];
 
     public Form1()
     {

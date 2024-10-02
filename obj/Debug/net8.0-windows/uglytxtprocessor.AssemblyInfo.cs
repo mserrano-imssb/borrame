@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("uglytxtprocessor")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3cb3a2d04b6b6c5e7e4c95a73292b4e60fa058b3")]
 [assembly: System.Reflection.AssemblyProductAttribute("uglytxtprocessor")]
 [assembly: System.Reflection.AssemblyTitleAttribute("uglytxtprocessor")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
