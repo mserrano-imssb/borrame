@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\repos\\uglytxtprocessor\\uglytxtprocessor.csproj": {}
+    "C:\\repos\\uglytxtprocessor\\uglytxtprocessor.csproj": {}
   },
   "projects": {
-    "c:\\repos\\uglytxtprocessor\\uglytxtprocessor.csproj": {
+    "C:\\repos\\uglytxtprocessor\\uglytxtprocessor.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\repos\\uglytxtprocessor\\uglytxtprocessor.csproj",
+        "projectUniqueName": "C:\\repos\\uglytxtprocessor\\uglytxtprocessor.csproj",
         "projectName": "uglytxtprocessor",
-        "projectPath": "c:\\repos\\uglytxtprocessor\\uglytxtprocessor.csproj",
+        "projectPath": "C:\\repos\\uglytxtprocessor\\uglytxtprocessor.csproj",
         "packagesPath": "C:\\Users\\mario.serrano\\.nuget\\packages\\",
-        "outputPath": "c:\\repos\\uglytxtprocessor\\obj\\",
+        "outputPath": "C:\\repos\\uglytxtprocessor\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mario.serrano\\AppData\\Roaming\\NuGet\\NuGet.Config"
