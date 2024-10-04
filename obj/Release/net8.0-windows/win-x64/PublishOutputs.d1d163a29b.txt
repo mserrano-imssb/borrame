@@ -1,2 +1,0 @@
-C:\repos\ivtxtprocessor\bin\Release\net8.0-windows\win-x64\publish\ivtxtprocessor.pdb
-C:\repos\ivtxtprocessor\bin\Release\net8.0-windows\win-x64\publish\ivtxtprocessor.exe
