@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "Cyblvb6VWbw=",
+  "dgSpecHash": "vMrybilLZ+c=",
   "success": true,
-  "projectFilePath": "C:\\repos\\uglytxtprocessor\\uglytxtprocessor.csproj",
+  "projectFilePath": "C:\\repos\\ivtxtprocessor\\ivtxtprocessor.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\mario.serrano\\.nuget\\packages\\epplus\\4.0.1.1\\epplus.4.0.1.1.nupkg.sha512"
+    "C:\\Users\\mario.serrano\\.nuget\\packages\\epplus\\4.0.1.1\\epplus.4.0.1.1.nupkg.sha512",
+    "C:\\Users\\mario.serrano\\.nuget\\packages\\microsoft.net.illink.tasks\\8.0.8\\microsoft.net.illink.tasks.8.0.8.nupkg.sha512"
   ],
   "logs": [
     {

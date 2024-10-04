@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace uglytxtprocessor;
+namespace ivtxtprocessor;
 
 static class Program
 {

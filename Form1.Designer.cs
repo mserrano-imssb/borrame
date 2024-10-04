@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using OfficeOpenXml;
 
-namespace uglytxtprocessor;
+namespace ivtxtprocessor;
 
 partial class Form1
 {
@@ -109,6 +109,7 @@ partial class Form1
         dataTable.Columns.Add("ESP", typeof(string));
         dataTable.Columns.Add("DIF", typeof(string));
         dataTable.Columns.Add("VAR", typeof(string));
+        dataTable.Columns.Add("CLAVE", typeof(string));
         dataTable.Columns.Add("DESCRIPCION", typeof(string));
         dataTable.Columns.Add("UNI", typeof(string));
         dataTable.Columns.Add("CANT.P", typeof(decimal));

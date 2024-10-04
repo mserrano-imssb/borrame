@@ -6,7 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 
-namespace uglytxtprocessor;
+namespace ivtxtprocessor;
 
 public partial class Form1 : Form
 {
@@ -29,6 +29,7 @@ public partial class Form1 : Form
         dataTable.Columns.Add("ESP", typeof(string));
         dataTable.Columns.Add("DIF", typeof(string));
         dataTable.Columns.Add("VAR", typeof(string));
+        dataTable.Columns.Add("CLAVE", typeof(string));
         dataTable.Columns.Add("DESCRIPCION", typeof(string));
         dataTable.Columns.Add("UNI", typeof(string));
         dataTable.Columns.Add("CANT.P", typeof(decimal));
@@ -130,6 +131,10 @@ public partial class Form1 : Form
                     }*/
                     columnsList.Add(preColumns[2]);
                     columnsList.Add(preColumns[3]);
+
+                    string clave = preColumns[0] + "." + preColumns[1] + "." + preColumns[2] + "." + preColumns[3];
+                    columnsList.Add(clave);
+
                     int i = 4;
                     for (i = 4; i < preColumns.Length &&
                                     descripcion.Length + preColumns[i].Length <= 30 &&
@@ -147,8 +152,8 @@ public partial class Form1 : Form
 
                     var columns = columnsList.ToArray(); // siempre debe ser 17
                                                          // Parsear datos de las columnas "DISPONIBLE" y "IMPORTE"
-                    int disponible = int.Parse(columns[12].Replace(",", ""));
-                    decimal importe = decimal.Parse(columns[14].Replace("$", "").Replace(",", ""));
+                    int disponible = int.Parse(columns[13].Replace(",", ""));
+                    decimal importe = decimal.Parse(columns[15].Replace("$", "").Replace(",", ""));
 
                     // Sumar subtotales y totales
                     subtotalDisponible += disponible;
@@ -165,17 +170,18 @@ public partial class Form1 : Form
                         columns[1],  // ESP
                         columns[2],  // DIF
                         columns[3],  // VAR
-                        columns[4],  // DESCRIPCION
-                        columns[5],  // UNI
-                        decimal.Parse(columns[6].Replace(",", "")),  // CANT.P
-                        columns[7],  // TIPO
-                        decimal.Parse(columns[8].Replace("$", "").Replace(",", "")),  // P.U.U.
-                        int.Parse(columns[9].Replace(",", "")),  // CPM_V
-                        int.Parse(columns[10].Replace(",", "")),  // P/EMBARQUE
-                        int.Parse(columns[11].Replace(",", "")),  // EN EMBARQUE
-                        int.Parse(columns[12].Replace(",", "")),  // DISPONIBLE
-                        int.Parse(columns[13].Replace(",", "")),  // NI(DISP)
-                        decimal.Parse(columns[14].Replace("$", "").Replace(",", ""))  // IMPORTE
+                        columns[4],  // CLAVE
+                        columns[5],  // DESCRIPCION
+                        columns[6],  // UNI
+                        decimal.Parse(columns[7].Replace(",", "")),  // CANT.P
+                        columns[8],  // TIPO
+                        decimal.Parse(columns[9].Replace("$", "").Replace(",", "")),  // P.U.U.
+                        int.Parse(columns[10].Replace(",", "")),  // CPM_V
+                        int.Parse(columns[11].Replace(",", "")),  // P/EMBARQUE
+                        int.Parse(columns[12].Replace(",", "")),  // EN EMBARQUE
+                        int.Parse(columns[13].Replace(",", "")),  // DISPONIBLE
+                        int.Parse(columns[14].Replace(",", "")),  // NI(DISP)
+                        decimal.Parse(columns[15].Replace("$", "").Replace(",", ""))  // IMPORTE
                     );
                 }
 
@@ -222,6 +228,10 @@ public partial class Form1 : Form
 
     private void ExportarAExcel(string filePath)
     {
+        // necesito ordenar tabla por las primeras 4 columnas
+        dataTable.DefaultView.Sort = "GRUPO, PARTIDA, GEN, ESP";
+        dataTable = dataTable.DefaultView.ToTable();
+
         using (var package = new ExcelPackage())
         {
             var worksheet = package.Workbook.Worksheets.Add("Datos");
@@ -243,8 +253,8 @@ public partial class Form1 : Form
 
             /* package.SaveAs(new FileInfo(filePath));
              MessageBox.Show("Datos exportados con éxito a Excel", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);*/
-           ExportarConTemplateAExcel(filePath);
-           // ExportarConTemplateAExcelConFormulas(filePath);
+            ExportarConTemplateAExcel(filePath);
+            // ExportarConTemplateAExcelConFormulas(filePath);
         }
     }
 
@@ -257,7 +267,9 @@ public partial class Form1 : Form
             var worksheet = package.Workbook.Worksheets.Add("Inventario");
 
             // Crear el encabezado con el estilo deseado
-            string[] header = { "GRUPO", "PARTIDA", "GEN", "ESP", "DIF", "VAR", "DESCRIPCION", "UNI", "CANT.P", "TIPO", "P.U.U.", "CPM_V", "P/EMBARQUE", "EN EMBARQUE", "DISPONIBLE", "NI(DISP)", "IMPORTE" };
+            string[] header = { "GRUPO", "PARTIDA", "GEN", "ESP", "DIF", "VAR", "CLAVE",
+                                 "DESCRIPCION", "UNI", "CANT.P", "TIPO", "P.U.U.", "CPM_V",
+                                 "P/EMBARQUE", "EN EMBARQUE", "DISPONIBLE", "NI(DISP)", "IMPORTE" };
 
             for (int i = 0; i < header.Length; i++)
             {
@@ -301,7 +313,7 @@ public partial class Form1 : Form
             var worksheet = package.Workbook.Worksheets.Add("Inventario");
 
             // Crear el encabezado con el estilo deseado
-            string[] header = { "GRUPO", "PARTIDA" , "GEN", "ESP", "DIF", "VAR", "DESCRIPCION", "UNI", "CANT.P", "TIPO", "P.U.U.", "CPM_V", "P/EMBARQUE", "EN EMBARQUE", "DISPONIBLE", "NI(DISP)", "IMPORTE" };
+            string[] header = { "GRUPO", "PARTIDA", "GEN", "ESP", "DIF", "VAR", "DESCRIPCION", "UNI", "CANT.P", "TIPO", "P.U.U.", "CPM_V", "P/EMBARQUE", "EN EMBARQUE", "DISPONIBLE", "NI(DISP)", "IMPORTE" };
 
             for (int i = 0; i < header.Length; i++)
             {
