@@ -1,6 +1,7 @@
 using System.Text;
+using ProcesadorTxt;
 
-namespace ivtxtprocessor;
+namespace ProcesadorTxt;
 
 static class Program
 {

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Windows.Forms;
 using OfficeOpenXml;
 
-namespace ivtxtprocessor;
+namespace ProcesadorTxt;
 
-partial class Form1
+partial class IVProcessorForm
 {
     /// <summary>
     ///  Required designer variable.
@@ -19,6 +19,7 @@ partial class Form1
     private System.Windows.Forms.Label lblSumDisponible;
     private System.Windows.Forms.Label lblSumImporte;
     private System.Windows.Forms.TextBox txtSubtotales;
+    private Button btnRegresar;
 
     /// <summary>
     ///  Clean up any resources being used.
@@ -48,6 +49,7 @@ partial class Form1
             this.txtSubtotales = new System.Windows.Forms.TextBox();
             this.lblSumDisponible = new System.Windows.Forms.Label();
             this.lblSumImporte = new System.Windows.Forms.Label();
+            this.btnRegresar = new Button();
             this.dataTable = new System.Data.DataTable();
 
             // Configuración del DataGridView
@@ -81,6 +83,11 @@ partial class Form1
             this.lblSumImporte.Location = new System.Drawing.Point(20, 510);
             this.lblSumImporte.Text = "Total IMPORTE: 0";
 
+            // Configuración del botón de regresar
+            this.btnRegresar.Text = "Regresar";
+            this.btnRegresar.Location = new System.Drawing.Point(20, 540);
+            this.btnRegresar.Click += new EventHandler(this.BtnRegresar_Click);
+
             // Añadir controles al formulario
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.btnCargarArchivo);
@@ -88,6 +95,7 @@ partial class Form1
             this.Controls.Add(this.lblSumDisponible);
             this.Controls.Add(this.lblSumImporte);
             this.Controls.Add(this.txtSubtotales);
+            this.Controls.Add(this.btnRegresar);
 
             // Otras configuraciones del formulario
             this.Text = "Procesador de Archivo TXT";
