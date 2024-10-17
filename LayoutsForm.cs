@@ -151,7 +151,13 @@ namespace ProcesadorTxt
             }
         }
 
-        private void ExportarAExcel(string path)
+        /// <summary>
+        /// Exporta a Excel.
+        /// Esta version muestra cantidad de inventarios SIN agrupar por
+        /// GRUPO-GENERICO-ESPECIFICADOR-DIFERENCIADOR-VARIANTE-LOTE-FECHA_CAD-FECHA_FAB-FECHA_REC
+        /// </summary>
+        /// <param name="path"></param>
+        private void ExportarAExcelSinSumatoriaDeInventario(string path)
         {
             // Ordenar los datos por GRUPO, GENERICO, ESPECIFICADOR, DIFERENCIADOR y VARIANTE
             DataView dataView = dataTable.DefaultView;
@@ -200,6 +206,130 @@ namespace ProcesadorTxt
                 MessageBox.Show("Archivo Layout generado con éxito con el formato de template.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
+
+        private void ExportarAExcel(string path)
+        {
+            // Ordenar los datos por GRUPO, GENERICO, ESPECIFICADOR, DIFERENCIADOR y VARIANTE
+            DataView dataView = dataTable.DefaultView;
+            dataView.Sort = "GRUPO ASC, GENERICO ASC, ESPECIFICADOR ASC, DIFERENCIADOR ASC, VARIANTE ASC";
+            DataTable sortedTable = dataView.ToTable();
+
+            // Crear un nuevo DataTable para los registros agrupados
+            DataTable groupedTable = new DataTable();
+            groupedTable.Columns.Add("GRUPO", typeof(string));
+            groupedTable.Columns.Add("GENERICO", typeof(string));
+            groupedTable.Columns.Add("ESPECIFICADOR", typeof(string));
+            groupedTable.Columns.Add("DIFERENCIADOR", typeof(string));
+            groupedTable.Columns.Add("VARIANTE", typeof(string));
+            groupedTable.Columns.Add("LOTE", typeof(string));
+            groupedTable.Columns.Add("FECHA_CAD", typeof(DateTime));
+            groupedTable.Columns.Add("FECHA_FAB", typeof(DateTime));
+            groupedTable.Columns.Add("FECHA_REC", typeof(DateTime));
+            groupedTable.Columns.Add("CANT_INV", typeof(long));  // Campo a sumar
+            groupedTable.Columns.Add("RFC_PROVEEDOR", typeof(string));  // Cualquier otra columna que desees incluir
+            groupedTable.Columns.Add("ESTADO", typeof(int));
+            groupedTable.Columns.Add("CSUSPENSIVO", typeof(string));
+            groupedTable.Columns.Add("LINEA", typeof(string));
+            groupedTable.Columns.Add("LOCALIDAD", typeof(string));
+            groupedTable.Columns.Add("NO_ALTA", typeof(int));
+            groupedTable.Columns.Add("ESTADO_ANTERIOR", typeof(string));
+
+            // Usamos un diccionario para almacenar los registros únicos y sumar CANT_INV
+            var registrosAgrupados = new Dictionary<string, DataRow>();
+
+            foreach (DataRow row in sortedTable.Rows)
+            {
+                // Crear la llave principal para agrupar
+                string llave = $"{row["GRUPO"]}-{row["GENERICO"]}-{row["ESPECIFICADOR"]}-{row["DIFERENCIADOR"]}-{row["VARIANTE"]}-{row["LOTE"]}-{row["FECHA_CAD"]}-{row["FECHA_FAB"]}-{row["FECHA_REC"]}";
+
+                if (registrosAgrupados.ContainsKey(llave))
+                {
+                    // Si ya existe el registro con la misma llave, sumamos CANT_INV
+                    registrosAgrupados[llave]["CANT_INV"] = (long)registrosAgrupados[llave]["CANT_INV"] + (long)row["CANT_INV"];
+                }
+                else
+                {
+                    // Si no existe, añadimos un nuevo registro
+                    DataRow newRow = groupedTable.NewRow();
+                    newRow["GRUPO"] = row["GRUPO"];
+                    newRow["GENERICO"] = row["GENERICO"];
+                    newRow["ESPECIFICADOR"] = row["ESPECIFICADOR"];
+                    newRow["DIFERENCIADOR"] = row["DIFERENCIADOR"];
+                    newRow["VARIANTE"] = row["VARIANTE"];
+                    newRow["LOTE"] = row["LOTE"];
+                    newRow["FECHA_CAD"] = row["FECHA_CAD"];
+                    newRow["FECHA_FAB"] = row["FECHA_FAB"];
+                    newRow["FECHA_REC"] = row["FECHA_REC"];
+                    newRow["CANT_INV"] = row["CANT_INV"];
+                    newRow["RFC_PROVEEDOR"] = row["RFC_PROVEEDOR"];
+                    newRow["ESTADO"] = row["ESTADO"];
+                    newRow["CSUSPENSIVO"] = row["CSUSPENSIVO"];
+                    newRow["LINEA"] = row["LINEA"];
+                    newRow["LOCALIDAD"] = row["LOCALIDAD"];
+                    newRow["NO_ALTA"] = row["NO_ALTA"];
+                    newRow["ESTADO_ANTERIOR"] = row["ESTADO_ANTERIOR"];
+
+                    registrosAgrupados.Add(llave, newRow);
+                }
+            }
+
+            // Convertir el diccionario a un DataTable
+            foreach (var registro in registrosAgrupados.Values)
+            {
+                groupedTable.Rows.Add(registro);
+            }
+
+            // Exportar el groupedTable a Excel
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Layout BCN");
+
+                // Agregar encabezados
+                for (int i = 0; i < groupedTable.Columns.Count; i++)
+                {
+                    worksheet.Cells[1, i + 1].Value = groupedTable.Columns[i].ColumnName;
+                    worksheet.Cells[1, i + 1].Style.Font.Bold = true;
+                }
+
+                // Rellenar las filas con los datos agrupados
+                for (int row = 0; row < groupedTable.Rows.Count; row++)
+                {
+                    for (int col = 0; col < groupedTable.Columns.Count; col++)
+                    {
+                        var cell = worksheet.Cells[row + 2, col + 1];
+
+                        if (groupedTable.Columns[col].DataType == typeof(string))
+                        {
+                            // Si es una columna de texto, asegúrate de exportarlo como texto
+                            cell.Style.Numberformat.Format = "@";
+                            cell.Value = groupedTable.Rows[row][col].ToString().PadLeft(3, '0');
+                        }
+                        else if (groupedTable.Columns[col].DataType == typeof(DateTime))
+                        {
+                            // Si es una columna de fecha, usar el formato MM/dd/yyyy HH:mm:ss
+                            cell.Style.Numberformat.Format = "MM/dd/yyyy HH:mm:ss";
+                            DateTime fecha = Convert.ToDateTime(groupedTable.Rows[row][col]);
+                            cell.Value = fecha.ToString("MM/dd/yyyy HH:mm:ss");
+                        }
+                        else
+                        {
+                            // Para otros tipos de datos (ej. enteros, decimales)
+                            cell.Value = groupedTable.Rows[row][col];
+                        }
+                    }
+                }
+
+                // Autoajustar columnas para mejorar la legibilidad
+                worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+
+                // Guardar el archivo
+                FileInfo fi = new FileInfo(path);
+                package.SaveAs(fi);
+
+                MessageBox.Show("Layout exportado y agrupado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
 
         private void BtnRegresar_Click(object sender, EventArgs e)
         {
