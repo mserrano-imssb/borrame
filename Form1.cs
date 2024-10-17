@@ -15,6 +15,9 @@ namespace ProcesadorTxt
         private Button btnLayoutsProcessor;
         private ToolTip toolTipLayouts;
 
+        private Button btnMainForm;
+        private ToolTip toolTipMainForm;
+
         public Form1()
         {
             InitializeComponent();
@@ -28,6 +31,8 @@ namespace ProcesadorTxt
             this.toolTipArticulos = new();
             this.btnLayoutsProcessor = new();
             this.toolTipLayouts = new();
+            this.btnMainForm = new();
+            this.toolTipMainForm = new();
 
             // Configuración del botón IVProcessor
             this.btnIVProcessor.Text = "IV Processor";
@@ -44,15 +49,23 @@ namespace ProcesadorTxt
             this.btnLayoutsProcessor.Location = new System.Drawing.Point(20, 140);
             this.btnLayoutsProcessor.Click += new EventHandler(this.BtnLayoutsProcessor_Click);
 
+            // Configuración del botón Main Form
+            this.btnMainForm.Text = "Main Form";
+            this.btnMainForm.Location = new System.Drawing.Point(20, 200);
+            this.btnMainForm.Click += new EventHandler(this.BtnMainForm_Click);
+
             // Configuración del ToolTip
             toolTipIV.SetToolTip(this.btnIVProcessor, "Clic para abrir el procesador de txt de Inventario Valorizado");  // Mensaje del ToolTip
             toolTipArticulos.SetToolTip(this.btnArticulosProcessor, "Clic para abrir el procesador de txt de Articulos");            
             toolTipLayouts.SetToolTip(this.btnLayoutsProcessor, "Clic para abrir el procesador de XLSX de Layouts");
+            toolTipMainForm.SetToolTip(this.btnMainForm, "Clic para abrir el formulario principal");
+
 
             // Añadir el botón al formulario
             this.Controls.Add(this.btnIVProcessor);
             this.Controls.Add(this.btnArticulosProcessor);
             this.Controls.Add(this.btnLayoutsProcessor);
+            this.Controls.Add(this.btnMainForm);
 
             // Configuración del formulario
             this.Text = "IMSSB - Mini utilerías";
@@ -81,6 +94,14 @@ namespace ProcesadorTxt
             LayoutsForm layoutsForm = new LayoutsForm();
             this.Hide();  // Esconde el formulario principal
             layoutsForm.Show();
+        }
+
+        private void BtnMainForm_Click(object sender, EventArgs e)
+        {
+            // Mostrar el formulario IVProcessorForm
+            MainForm mainForm = new MainForm();
+            this.Hide();  // Esconde el formulario principal
+            mainForm.Show();
         }
     }
 }

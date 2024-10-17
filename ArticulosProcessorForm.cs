@@ -10,16 +10,18 @@ namespace ProcesadorTxt
 {
     public class ArticulosProcessorForm : Form
     {
+        private const int LineMaxLength = 146;
         private DataGridView dataGridView;
         private Button btnCargarArchivo;
         private Button btnExportarExcel;
         private Button btnRegresar;
         private DataTable dataTable;
+        private TableLayoutPanel mainLayoutPanel;
+        private FlowLayoutPanel buttonPanel;
         private string[] exclude = ["PZA", "ENV", "EQP", "AMP", "CJA", "JGO", "LTA", "BTE", "F.G", "FCO"];
         private string[] headers = ["INSTITUTO MEXICANO DEL SEGURO SOCIAL",
          "NO REFERENCIADO", "BAJA CALIFORNIA NORT", "REPORTE TOTAL DE ARTICULOS", "PAGINA",
           "ARTICULO     ", "ARTICULO PRESENTACION", "P.U.U."];
-
 
         public ArticulosProcessorForm()
         {
@@ -35,18 +37,29 @@ namespace ProcesadorTxt
             this.btnRegresar = new Button();
             this.dataTable = new DataTable();
 
+            // Inicialización del TableLayoutPanel principal
+            this.mainLayoutPanel = new TableLayoutPanel();
+            this.mainLayoutPanel.ColumnCount = 1;
+            this.mainLayoutPanel.RowCount = 2;
+            this.mainLayoutPanel.Dock = DockStyle.Fill;
+            this.mainLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 155F)); // 155% para el DataGridView
+            this.mainLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F)); // Fila para botones
+
             // Configuración del DataGridView
-            this.dataGridView.Location = new System.Drawing.Point(20, 20);
+            //this.dataGridView.Location = new System.Drawing.Point(20, 20);
+            this.dataGridView.Dock = DockStyle.Fill;
             this.dataGridView.Size = new System.Drawing.Size(750, 400);
 
             // Configuración del botón de cargar archivo
             this.btnCargarArchivo.Text = "Cargar Archivo";
-            this.btnCargarArchivo.Location = new System.Drawing.Point(20, 440);
+            //this.btnCargarArchivo.Location = new System.Drawing.Point(20, 440);
+            this.btnCargarArchivo.Size = new System.Drawing.Size(120, 30);
             this.btnCargarArchivo.Click += new EventHandler(this.BtnCargarArchivo_Click);
 
             // Configuración del botón de exportar a Excel
             this.btnExportarExcel.Text = "Exportar a Excel";
-            this.btnExportarExcel.Location = new System.Drawing.Point(150, 440);
+            //this.btnExportarExcel.Location = new System.Drawing.Point(150, 440);
+            this.btnExportarExcel.Size = new System.Drawing.Size(120, 30);
             this.btnExportarExcel.Click += new EventHandler(this.BtnExportarExcel_Click);
 
             // Configuración del botón de regresar
@@ -54,15 +67,33 @@ namespace ProcesadorTxt
             this.btnRegresar.Location = new System.Drawing.Point(280, 440);
             this.btnRegresar.Click += new EventHandler(this.BtnRegresar_Click);
 
+            // Panel para los botones
+            buttonPanel = new FlowLayoutPanel();
+            buttonPanel.Dock = DockStyle.Fill;
+            buttonPanel.FlowDirection = FlowDirection.LeftToRight; // Botones de izquierda a derecha
+            buttonPanel.WrapContents = false;  // Evitar que los botones se apilen en múltiples líneas
+            buttonPanel.AutoSize = true; // Permitir que el panel se ajuste al contenido
+
+            // Añadir los botones al buttonPanel
+            buttonPanel.Controls.Add(this.btnCargarArchivo);
+            buttonPanel.Controls.Add(this.btnExportarExcel);
+            // buttonPanel.Controls.Add(this.btnRegresar); // temporalmente
+
+            // Agregar controles al TableLayoutPanel
+            this.mainLayoutPanel.Controls.Add(this.dataGridView, 0, 0);  // Primera fila (DataGridView)
+            this.mainLayoutPanel.Controls.Add(buttonPanel, 0, 1);       // Segunda fila (Botones)
+
             // Añadir controles al formulario
-            this.Controls.Add(this.dataGridView);
+            /*this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.btnCargarArchivo);
             this.Controls.Add(this.btnExportarExcel);
-            this.Controls.Add(this.btnRegresar);
+            this.Controls.Add(this.btnRegresar);*/
+            // Añadir el TableLayoutPanel al formulario
+            this.Controls.Add(this.mainLayoutPanel);
 
             // Configuración del formulario
             this.Text = "Articulos Processor";
-            this.Size = new System.Drawing.Size(800, 600);
+            this.ClientSize = new System.Drawing.Size(850, 600);
         }
 
         private void BtnCargarArchivo_Click(object sender, EventArgs e)
@@ -80,6 +111,7 @@ namespace ProcesadorTxt
             }
             else
             {
+                btnExportarExcel.Enabled = false;
                 var result = dialogResult == DialogResult.Abort ? "Abort" : "Cancel";
                 MessageBox.Show("Archivo no seleccionado", "Error " + result, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -103,6 +135,8 @@ namespace ProcesadorTxt
             dataTable.Columns.Add("TIPO", typeof(string));
             dataTable.Columns.Add("T.A", typeof(string));
             dataTable.Columns.Add("P.U.U", typeof(decimal));
+            dataGridView.DataSource = dataTable;
+            this.btnExportarExcel.Enabled = false;
         }
 
         private void ProcesarArchivo(string filePath)
@@ -111,6 +145,7 @@ namespace ProcesadorTxt
             string descripcionAcumulada = "";
             try
             {
+                this.dataTable.Rows.Clear();
                 // Registrar proveedor de codificación para páginas de códigos, necesario para codificaciones como Windows-1252
                 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
                 // Leer el archivo con la codificación ANSI (Windows-1252)
@@ -135,6 +170,10 @@ namespace ProcesadorTxt
                         if (line.Length > 50)
                         {
                             string[] preColumns = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                            if (preColumns.Length < 14)
+                            {
+                                continue;
+                            }
                             List<string> columnsList = new List<string>();
                             var descripcion = "";
                             columnsList.Add(preColumns[0]); // NUM
@@ -148,10 +187,10 @@ namespace ProcesadorTxt
                             string clave = preColumns[1] + "." + preColumns[2] + "." + preColumns[3] + "." + preColumns[4];
                             columnsList.Add(clave);
 
-                            if (preColumns[0] == "25")
+                            /*if (preColumns[0] == "25")
                             {
-                                var popo = 0;
-                            }
+                                var test = 0;
+                            }*/
 
                             int i = 8;
                             for (i = 8; i < preColumns.Length &&
@@ -223,10 +262,20 @@ namespace ProcesadorTxt
                 }
 
                 dataGridView.DataSource = dataTable;
+                // habilitar boton de excel si hay datos
+                if (dataTable.Rows.Count > 0)
+                {
+                    btnExportarExcel.Enabled = true;
+                }
+                else
+                {
+                    MessageBox.Show("No se encontraron datos. Verifique que tenga formato correcto.", "Datos no encontrados", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    btnExportarExcel.Enabled = false;
+                }
             }
             catch (Exception ex)
             {
-                throw;
+                MessageBox.Show("Error al procesar archivo. Verifique que tenga formato correcto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -240,7 +289,7 @@ namespace ProcesadorTxt
             // Validar si al menos uno de los elementos en this.headers esta presente en la línea
             foreach (string header in this.headers)
             {
-                if (line.Contains(header))
+                if (line.Contains(header)|| line.Length > LineMaxLength)
                 {
                     return false;
                 }

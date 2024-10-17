@@ -20,6 +20,8 @@ partial class IVProcessorForm
     private System.Windows.Forms.Label lblSumImporte;
     private System.Windows.Forms.TextBox txtSubtotales;
     private Button btnRegresar;
+    private TableLayoutPanel mainLayoutPanel;
+    private FlowLayoutPanel buttonPanel;
 
     /// <summary>
     ///  Clean up any resources being used.
@@ -42,64 +44,87 @@ partial class IVProcessorForm
     /// </summary>
     private void InitializeComponent()
     {
-            // Inicialización de componentes existentes
-            this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.btnCargarArchivo = new System.Windows.Forms.Button();
-            this.btnExportarExcel = new System.Windows.Forms.Button();
-            this.txtSubtotales = new System.Windows.Forms.TextBox();
-            this.lblSumDisponible = new System.Windows.Forms.Label();
-            this.lblSumImporte = new System.Windows.Forms.Label();
-            this.btnRegresar = new Button();
-            this.dataTable = new System.Data.DataTable();
+        // Inicialización del TableLayoutPanel principal
+        this.mainLayoutPanel = new TableLayoutPanel();
+        this.mainLayoutPanel.ColumnCount = 1;
+        this.mainLayoutPanel.RowCount = 4;
+        this.mainLayoutPanel.Dock = DockStyle.Fill;
+        this.mainLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 120F)); // 120% para el DataGridView
+        this.mainLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F)); // Fila para botones
+        this.mainLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 60F)); // Fila para subtotales
+        this.mainLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 5F)); // Fila para labels sumatorias
 
-            // Configuración del DataGridView
-            this.dataGridView.Location = new System.Drawing.Point(20, 20);
-            this.dataGridView.Size = new System.Drawing.Size(800, 400);
+        // Inicialización de componentes existentes
+        this.dataGridView = new System.Windows.Forms.DataGridView();
+        this.btnCargarArchivo = new System.Windows.Forms.Button();
+        this.btnExportarExcel = new System.Windows.Forms.Button();
+        this.txtSubtotales = new System.Windows.Forms.TextBox();
+        this.lblSumDisponible = new System.Windows.Forms.Label();
+        this.lblSumImporte = new System.Windows.Forms.Label();
+        this.btnRegresar = new Button();
+        this.dataTable = new System.Data.DataTable();
+        
+        // Configuración del DataGridView
+        this.dataGridView.Dock = DockStyle.Fill;        
+        this.dataGridView.Size = new System.Drawing.Size(800, 400);
+        //this.dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            // Configuración del botón de cargar archivo
-            this.btnCargarArchivo.Text = "Cargar Archivo";
-            this.btnCargarArchivo.Location = new System.Drawing.Point(20, 440);
-            this.btnCargarArchivo.Click += new System.EventHandler(this.BtnCargarArchivo_Click);
+        // Configuración del botón de cargar archivo
+        this.btnCargarArchivo.Text = "Cargar Archivo";
+        this.btnCargarArchivo.Size = new System.Drawing.Size(120, 30);
+        this.btnCargarArchivo.Click += new System.EventHandler(this.BtnCargarArchivo_Click);
 
-            // Configuración del botón de exportar a Excel
-            this.btnExportarExcel.Text = "Exportar a Excel";
-            this.btnExportarExcel.Location = new System.Drawing.Point(150, 440);
-            this.btnExportarExcel.Click += new System.EventHandler(this.btnExportarExcel_Click);
+        // Configuración del botón de exportar a Excel
+        this.btnExportarExcel.Text = "Exportar a Excel";
+        this.btnExportarExcel.Size = new System.Drawing.Size(120, 30);
+        this.btnExportarExcel.Click += new System.EventHandler(this.btnExportarExcel_Click);
 
-            // Configuración del TextBox para mostrar los subtotales
-            this.txtSubtotales.Location = new System.Drawing.Point(210, 440);
-            this.txtSubtotales.Size = new System.Drawing.Size(610, 150);
-            this.txtSubtotales.Multiline = true;
-            this.txtSubtotales.ReadOnly = true;
-            this.txtSubtotales.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+        // Configuración del TextBox para mostrar los subtotales
+        this.txtSubtotales.Dock = DockStyle.Fill;
+        this.txtSubtotales.Multiline = true;
+        this.txtSubtotales.ReadOnly = true;
+        this.txtSubtotales.ScrollBars = ScrollBars.Vertical;
 
-            // Configuración del Label para la sumatoria de "DISPONIBLE"
-            this.lblSumDisponible.AutoSize = true;
-            this.lblSumDisponible.Location = new System.Drawing.Point(20, 480);
-            this.lblSumDisponible.Text = "Total DISPONIBLE: 0";
+        // Configuración del Label para la sumatoria de "DISPONIBLE"
+        this.lblSumDisponible.AutoSize = true;
+        this.lblSumDisponible.Dock = DockStyle.Top;
+        this.lblSumDisponible.Text = "Total DISPONIBLE: 0";
 
-            // Configuración del Label para la sumatoria de "IMPORTE"
-            this.lblSumImporte.AutoSize = true;
-            this.lblSumImporte.Location = new System.Drawing.Point(20, 510);
-            this.lblSumImporte.Text = "Total IMPORTE: 0";
+        // Configuración del Label para la sumatoria de "IMPORTE"
+        this.lblSumImporte.AutoSize = true;
+        this.lblSumImporte.Dock = DockStyle.Top;
+        this.lblSumImporte.Text = "Total IMPORTE: 0";
 
-            // Configuración del botón de regresar
-            this.btnRegresar.Text = "Regresar";
-            this.btnRegresar.Location = new System.Drawing.Point(20, 540);
-            this.btnRegresar.Click += new EventHandler(this.BtnRegresar_Click);
+        // Configuración del botón de regresar
+        this.btnRegresar.Text = "Regresar";
+        this.btnRegresar.Size = new System.Drawing.Size(120, 30);
+        this.btnRegresar.Click += new EventHandler(this.BtnRegresar_Click);
 
-            // Añadir controles al formulario
-            this.Controls.Add(this.dataGridView);
-            this.Controls.Add(this.btnCargarArchivo);
-            this.Controls.Add(this.btnExportarExcel);
-            this.Controls.Add(this.lblSumDisponible);
-            this.Controls.Add(this.lblSumImporte);
-            this.Controls.Add(this.txtSubtotales);
-            this.Controls.Add(this.btnRegresar);
+        // Panel para los botones
+        buttonPanel = new FlowLayoutPanel();
+        buttonPanel.Dock = DockStyle.Fill;
+        buttonPanel.FlowDirection = FlowDirection.LeftToRight; // Botones de izquierda a derecha
+        buttonPanel.WrapContents = false;  // Evitar que los botones se apilen en múltiples líneas
+        buttonPanel.AutoSize = true; // Permitir que el panel se ajuste al contenido
 
-            // Otras configuraciones del formulario
-            this.Text = "Procesador de Archivo TXT";
-            this.ClientSize = new System.Drawing.Size(850, 600);
+        // Añadir los botones al buttonPanel
+        buttonPanel.Controls.Add(this.btnCargarArchivo);
+        buttonPanel.Controls.Add(this.btnExportarExcel);
+       // buttonPanel.Controls.Add(this.btnRegresar); // temporalmente
+
+        // Agregar controles al TableLayoutPanel
+        this.mainLayoutPanel.Controls.Add(this.dataGridView, 0, 0);  // Primera fila (DataGridView)
+        this.mainLayoutPanel.Controls.Add(buttonPanel, 0, 1);       // Segunda fila (Botones)
+        this.mainLayoutPanel.Controls.Add(this.txtSubtotales, 0, 2); // Tercera fila (Subtotales)
+        this.mainLayoutPanel.Controls.Add(this.lblSumDisponible, 0, 3); // Cuarta fila (Sumatoria de disponible)
+        this.mainLayoutPanel.Controls.Add(this.lblSumImporte, 0, 3);    // Cuarta fila (Sumatoria de importe)
+
+        // Añadir el TableLayoutPanel al formulario
+        this.Controls.Add(this.mainLayoutPanel);
+
+        // Otras configuraciones del formulario
+        this.Text = "Procesador de Archivo TXT";
+        this.ClientSize = new System.Drawing.Size(850, 600);
 
         // Otras configuraciones del formulario
         this.Text = "Procesador de Archivo TXT de Inventarios Valorizados";

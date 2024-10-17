@@ -44,6 +44,7 @@ public partial class IVProcessorForm : Form
         dataTable.Columns.Add("IMPORTE", typeof(decimal));
 
         dataGridView.DataSource = dataTable;
+        this.btnExportarExcel.Enabled = false;
     }
 
     private void btnCargarArchivo_Click(object sender, EventArgs e)
@@ -61,6 +62,7 @@ public partial class IVProcessorForm : Form
         }
         else
         {
+            btnExportarExcel.Enabled = false;
             var result = dialogResult == DialogResult.Abort ? "Abort" : "Cancel";
             MessageBox.Show("Archivo no seleccionado", "Error " + result, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
@@ -84,7 +86,9 @@ public partial class IVProcessorForm : Form
 
             decimal totalDisponible = 0;
             decimal totalImporte = 0;
+            //this.dataGridView.Rows.Clear();
             this.dataTable.Rows.Clear();
+            this.txtSubtotales.Clear();
 
             foreach (string linea in lines)
             {
@@ -96,6 +100,21 @@ public partial class IVProcessorForm : Form
                     ejemplo "EXISTENCIAS AL CORTE DE : 2024/09/25                                                  GRUPO : 010/MEDICINAS."
                     */
                     line = line.Replace("EXISTENCIAS AL CORTE DE : ", "");
+                    
+                    // evitar error "Index was outside the bounds of the array"                                        
+                    if (line.Length == 0) break; // formato incorrecto
+                    if (line.Length > 0)
+                    {
+                        if ( line.Split(':').Length < 2)
+                        {
+                            break; // formato incorrecto
+                        }
+                        if ( line.Split(':')[1].Trim().Split('/').Length < 1)
+                        {
+                            break; // formato incorrecto
+                        }
+                    }
+
                     grupo = line.Split(':')[1].Trim().Split('/')[0];
                     if (grupoAnterior != grupo)
                     {
@@ -196,6 +215,17 @@ public partial class IVProcessorForm : Form
             if (!string.IsNullOrEmpty(grupo))
             {
                 MostrarSubtotales(grupo, partida, subtotalDisponible, subtotalImporte);
+            }
+            // habilitar boton de excel si hay datos
+            if (dataTable.Rows.Count > 0)
+            {
+                btnExportarExcel.Enabled = true;
+            }
+            else 
+            {
+                MessageBox.Show("No se encontraron datos. Verifique que tenga formato correcto.", 
+                                    "Datos no encontrados", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                btnExportarExcel.Enabled = false;
             }
         }
         catch (Exception ex)
