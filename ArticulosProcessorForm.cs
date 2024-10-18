@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace ProcesadorTxt
 {
-    public class ArticulosProcessorForm : Form
+    public class ArticulosProcessorForm : Form, IFormWithLoadedData
     {
         private const int LineMaxLength = 146;
         private DataGridView dataGridView;
@@ -27,6 +27,13 @@ namespace ProcesadorTxt
         {
             InitializeComponent();
             ConfigurarDataGridView();
+        }
+
+        // Método de la interfaz
+        public bool HasDataLoaded()
+        {
+            // Verificar si el DataTable tiene filas
+            return dataTable != null && dataTable.Rows.Count > 0;
         }
 
         private void InitializeComponent()
@@ -251,6 +258,10 @@ namespace ProcesadorTxt
                         }
                         else
                         {
+                            if ( dataTable.Rows.Count == 0 )
+                            {
+                                break; // formato invalido, no hay datos
+                            }
                             // Si es la segunda línea de descripción, concatenar con la descripción anterior
                             descripcionAcumulada += line.Trim();
                             dataTable.Rows[dataTable.Rows.Count - 1]["DESCRIPCION"] = descripcionAcumulada;
@@ -289,7 +300,7 @@ namespace ProcesadorTxt
             // Validar si al menos uno de los elementos en this.headers esta presente en la línea
             foreach (string header in this.headers)
             {
-                if (line.Contains(header)|| line.Length > LineMaxLength)
+                if (line.Contains(header) || line.Length > LineMaxLength)
                 {
                     return false;
                 }

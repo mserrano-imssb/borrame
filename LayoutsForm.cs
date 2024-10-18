@@ -10,7 +10,6 @@ namespace ProcesadorTxt
 {
     /// <summary>
     /// Formulario para Layouts. 
-    /// En construcción. Recibe archivos excel que envia SS para de ahi generar los layouts.
     /// Temporalmente descartado hasta nuevo aviso.
     /// </summary>
     public class LayoutsForm : Form

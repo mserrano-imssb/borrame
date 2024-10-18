@@ -9,7 +9,7 @@ using System.Text;
 
 namespace ProcesadorTxt;
 
-public partial class IVProcessorForm : Form
+public partial class IVProcessorForm : Form, IFormWithLoadedData
 {
     private DataTable dataTable;
     private string[] exclude = ["PZA", "ENV", "EQP", "AMP", "CJA", "JGO", "LTA", "BTE", "F.G", "FCO"];
@@ -45,6 +45,13 @@ public partial class IVProcessorForm : Form
 
         dataGridView.DataSource = dataTable;
         this.btnExportarExcel.Enabled = false;
+    }
+
+    // Método de la interfaz
+    public bool HasDataLoaded()
+    {
+        // Verificar si el DataTable tiene filas
+        return dataTable != null && dataTable.Rows.Count > 0;
     }
 
     private void btnCargarArchivo_Click(object sender, EventArgs e)
